@@ -17,9 +17,13 @@ ws.addEventListener("open", () => {
   presence.innerText = "🟢";
 });
 
-async function postNewMsg(user, text) {
-  // code goes here
-}
+ws.addEventListener("message", (event) => {
+  const data = JSON.parse(event.data);
+  allChat = data.msg;
+  render();
+});
+
+async function postNewMsg(user, text) {}
 
 /*
  *
