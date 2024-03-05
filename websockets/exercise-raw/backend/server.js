@@ -42,6 +42,7 @@ server.on("upgrade", (req, socket) => {
 
   socket.write(headers.join("\r\n"));
   socket.write(objToResponse({ msg: getMsgs() }));
+  connections.push(socket);
 
   socket.on("data", (buffer) => {
     const message = parseMessage(buffer);
@@ -51,6 +52,11 @@ server.on("upgrade", (req, socket) => {
         text: message.text,
         time: Date.now(),
       });
+      connections.forEach((s) => {
+        s.write(objToResponse({ msg: getMsgs() }));
+      });
+    } else if (message === null) {
+      socket.end();
     }
   });
   socket.on("end", () => {
