@@ -41,6 +41,7 @@ server.on("upgrade", (req, socket) => {
   ];
 
   socket.write(headers.join("\r\n"));
+  socket.write(objToResponse({ msg: getMsgs() }));
   console.log("upgrade Requested");
 });
 
