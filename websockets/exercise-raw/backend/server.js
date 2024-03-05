@@ -53,6 +53,9 @@ server.on("upgrade", (req, socket) => {
       });
     }
   });
+  socket.on("end", () => {
+    connections = connections.filter((s) => s !== socket);
+  });
 });
 
 const port = process.env.PORT || 8080;
