@@ -23,6 +23,10 @@ ws.addEventListener("message", (event) => {
   render();
 });
 
+ws.addEventListener("close", () => {
+  presence.innerText = "🔴";
+});
+
 async function postNewMsg(user, text) {
   const data = { user, text };
   ws.send(JSON.stringify(data));
