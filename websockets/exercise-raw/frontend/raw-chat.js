@@ -23,13 +23,10 @@ ws.addEventListener("message", (event) => {
   render();
 });
 
-async function postNewMsg(user, text) {}
-
-/*
- *
- * your code goes here
- *
- */
+async function postNewMsg(user, text) {
+  const data = { user, text };
+  ws.send(JSON.stringify(data));
+}
 
 function render() {
   const html = allChat.map(({ user, text }) => template(user, text));
