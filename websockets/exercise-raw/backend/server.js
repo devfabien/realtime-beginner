@@ -42,7 +42,17 @@ server.on("upgrade", (req, socket) => {
 
   socket.write(headers.join("\r\n"));
   socket.write(objToResponse({ msg: getMsgs() }));
-  console.log("upgrade Requested");
+
+  socket.on("data", (buffer) => {
+    const message = parseMessage(buffer);
+    if (message) {
+      msg.push({
+        user: message.user,
+        text: message.text,
+        time: Date.now(),
+      });
+    }
+  });
 });
 
 const port = process.env.PORT || 8080;
