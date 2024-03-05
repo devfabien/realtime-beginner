@@ -10,6 +10,13 @@ chat.addEventListener("submit", function (e) {
   chat.elements.text.value = "";
 });
 
+const ws = new WebSocket("ws://localhost:8080", ["json"]);
+
+ws.addEventListener("open", () => {
+  console.log("connected");
+  presence.innerText = "🟢";
+});
+
 async function postNewMsg(user, text) {
   // code goes here
 }
