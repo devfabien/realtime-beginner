@@ -10,15 +10,27 @@ chat.addEventListener("submit", function (e) {
   chat.elements.text.value = "";
 });
 
-async function postNewMsg(user, text) {
-  // code goes here
-}
+const ws = new WebSocket("ws://localhost:8080", ["json"]);
 
-/*
- *
- * your code goes here
- *
- */
+ws.addEventListener("open", () => {
+  console.log("connected");
+  presence.innerText = "🟢";
+});
+
+ws.addEventListener("message", (event) => {
+  const data = JSON.parse(event.data);
+  allChat = data.msg;
+  render();
+});
+
+ws.addEventListener("close", () => {
+  presence.innerText = "🔴";
+});
+
+async function postNewMsg(user, text) {
+  const data = { user, text };
+  ws.send(JSON.stringify(data));
+}
 
 function render() {
   const html = allChat.map(({ user, text }) => template(user, text));
